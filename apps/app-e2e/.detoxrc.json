@@ -1,0 +1,107 @@
+{
+  "testRunner": {
+    "args": {
+      "$0": "jest",
+      "config": "./jest.config.json"
+    },
+    "jest": {
+      "setupTimeout": 120000
+    }
+  },
+  "apps": {
+    "ios.debug": {
+      "type": "ios.app",
+      "build": "cd ../../apps/app/ios && xcodebuild -workspace App.xcworkspace -scheme App -configuration Debug -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' -derivedDataPath ./build -quiet",
+      "binaryPath": "../../apps/app/ios/build/Build/Products/Debug-iphonesimulator/App.app"
+    },
+    "ios.release": {
+      "type": "ios.app",
+      "build": "cd ../../apps/app/ios && xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' -derivedDataPath ./build -quiet",
+      "binaryPath": "../../apps/app/ios/build/Build/Products/Release-iphonesimulator/App.app"
+    },
+
+    "ios.eas": {
+      "type": "ios.app",
+      "build": "yarn nx run app:download --platform ios --distribution simulator --output=../../apps/app/dist/",
+      "binaryPath": "../../apps/app/dist/App.app"
+    },
+    "ios.local": {
+      "type": "ios.app",
+      "build": "yarn nx run app:build --platform ios --profile preview --wait --local --no-interactive --output=../../apps/app/dist/App.tar.gz",
+      "binaryPath": "../../apps/app/dist/App.app"
+    },
+
+    "android.debug": {
+      "type": "android.apk",
+      "build": "cd ../../apps/app/android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug",
+      "binaryPath": "../../apps/app/android/app/build/outputs/apk/debug/app-debug.apk"
+    },
+    "android.release": {
+      "type": "android.apk",
+      "build": "cd ../../apps/app/android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release",
+      "binaryPath": "../../apps/app/android/app/build/outputs/apk/release/app-release.apk"
+    },
+
+    "android.eas": {
+      "type": "android.apk",
+      "build": "yarn nx run app:download --platform android --distribution simulator --output=../../apps/app/dist/",
+      "binaryPath": "../../apps/app/dist/App.apk"
+    },
+    "android.local": {
+      "type": "android.apk",
+      "build": "yarn nx run app:build --platform android --profile preview --wait --local --no-interactive --output=../../apps/app/dist/App.apk",
+      "binaryPath": "../../apps/app/dist/App.apk"
+    }
+  },
+  "devices": {
+    "simulator": {
+      "type": "ios.simulator",
+      "device": {
+        "type": "iPhone 14"
+      }
+    },
+    "emulator": {
+      "type": "android.emulator",
+      "device": {
+        "avdName": "Pixel_4a_API_30"
+      }
+    }
+  },
+  "configurations": {
+    "ios.sim.release": {
+      "device": "simulator",
+      "app": "ios.release"
+    },
+    "ios.sim.debug": {
+      "device": "simulator",
+      "app": "ios.debug"
+    },
+
+    "ios.sim.eas": {
+      "device": "simulator",
+      "app": "ios.eas"
+    },
+    "ios.sim.local": {
+      "device": "simulator",
+      "app": "ios.local"
+    },
+
+    "android.emu.release": {
+      "device": "emulator",
+      "app": "android.release"
+    },
+    "android.emu.debug": {
+      "device": "emulator",
+      "app": "android.debug"
+    },
+
+    "android.emu.eas": {
+      "device": "emulator",
+      "app": "android.eas"
+    },
+    "android.emu.local": {
+      "device": "emulator",
+      "app": "android.local"
+    }
+  }
+}
