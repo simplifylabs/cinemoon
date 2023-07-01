@@ -25,7 +25,9 @@
     "expo-linear-gradient": "*",
     "tailwindcss": "*",
     "moti": "*",
-    "react-native-pager-view": "*"
+    "react-native-pager-view": "*",
+    "react-native-heroicons": "*",
+    "axios": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/app && cp yarn.lock apps/app",

@@ -1,25 +1,44 @@
 import AppText from '../../components/text/AppText';
-import { Tabs } from 'expo-router';
+import { Stack, Tabs, useRouter } from 'expo-router';
 import { TouchableOpacity, View } from 'react-native';
-import { HomeIcon } from 'react-native-heroicons/solid';
+import {
+  HomeIcon,
+  MagnifyingGlassIcon,
+  UserIcon,
+} from 'react-native-heroicons/solid';
 import colors from 'tailwindcss/colors';
 
 function CustomTabBar({ state, descriptors, navigation }: any) {
+  const routes = [state.routes[0], { key: 'finder' }, state.routes[1]];
+  descriptors.finder = {
+    key: 'finder',
+    name: 'finder',
+    options: {
+      tabBarLabel: 'Finder',
+      tabBarIcon: ({ color, size }: any) => (
+        <MagnifyingGlassIcon color={color} size={size} />
+      ),
+    },
+  };
+
   return (
     <View className="bg-background">
-      <View className="flex flex-row w-[85%] h-16 mx-auto my-5 bg-gray-800 rounded-full">
-        {state.routes.map((route: any, index: any) => {
+      <View className="flex flex-row w-[85%] h-14 mx-auto my-5 bg-gray-800 rounded-full">
+        {routes.map((route: any, index: any) => {
           const { options } = descriptors[route.key];
-          const label =
-            options.tabBarLabel !== undefined
-              ? options.tabBarLabel
-              : options.title !== undefined
-              ? options.title
-              : route.name;
+
+          if (index === 2) {
+            index = 1;
+          }
 
           const isFocused = state.index === index;
 
           const onPress = () => {
+            if (route.key === 'finder') {
+              // push finder
+              navigation.push('finder');
+              return;
+            }
             const event = navigation.emit({
               type: 'tabPress',
               target: route.key,
@@ -46,14 +65,26 @@ function CustomTabBar({ state, descriptors, navigation }: any) {
               testID={options.tabBarTestID}
               onPress={onPress}
               onLongPress={onLongPress}
-              style={{ flex: 1 }}
-              key={index}
+              style={{ flex: route.key === 'finder' ? 1 : 2 }}
+              key={route.key}
             >
-              {/* Render tab icon */}
-              {options.tabBarIcon({
-                color: isFocused ? colors.blue['500'] : colors.gray['400'],
-                size: 24,
-              })}
+              {route.key === 'finder' ? (
+                <View className="relative flex flex-row items-center justify-center h-full">
+                  <View className="absolute w-14 h-14 translate-x-[-28px] -top-3 bg-blue-500 rounded-full left-1/2 flex flex-row items-center justify-center">
+                    {options.tabBarIcon({
+                      color: '#fff',
+                      size: 24,
+                    })}
+                  </View>
+                </View>
+              ) : (
+                <View className="flex flex-row items-center justify-center h-full">
+                  {options.tabBarIcon({
+                    color: isFocused ? colors.blue['500'] : colors.gray['400'],
+                    size: 24,
+                  })}
+                </View>
+              )}
             </TouchableOpacity>
           );
         })}
@@ -73,10 +104,20 @@ export default function Layout() {
       <Tabs.Screen
         name="index"
         options={{
-          href: '/',
+          href: '/home',
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <HomeIcon color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          href: '/profile',
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <UserIcon color={color} size={size} />
           ),
         }}
       />
