@@ -1,3 +1,5 @@
+<img src="./images/logo.png" width="64" height="64" alt="Logo" />
+
 # CineMoon: Your Personal Movie Companion
 
 CineMoon is a movie decision app that helps you find the perfect film to watch based on your preferences, mood, and interests.
