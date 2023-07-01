@@ -27,7 +27,9 @@
     "moti": "*",
     "react-native-pager-view": "*",
     "react-native-heroicons": "*",
-    "axios": "*"
+    "axios": "*",
+    "react-redux": "*",
+    "@rematch/core": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/app && cp yarn.lock apps/app",

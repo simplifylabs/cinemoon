@@ -17,6 +17,7 @@ import { Genre, Type } from '../../types/general';
 import ChooseSimilar from '../../components/finder/ChooseSimilar';
 import { API } from '../../util/api';
 import FinderResults from '../../components/finder/Results';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 export default function OnBoarding() {
   const [currentStep, setCurrentStep] = useState(0);

@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
+import { Provider } from 'react-redux';
 import {
   useFonts,
   Inter_900Black,
@@ -18,7 +19,8 @@ import {
   Slot,
 } from 'expo-router';
 
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
+import { store } from '../store';
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -39,7 +41,7 @@ export default function Layout() {
   }
 
   return (
-    <>
+    <Provider store={store}>
       <StatusBar style="light" translucent />
       <Stack
         screenOptions={{
@@ -48,6 +50,6 @@ export default function Layout() {
       >
         <Stack.Screen name="finder" />
       </Stack>
-    </>
+    </Provider>
   );
 }

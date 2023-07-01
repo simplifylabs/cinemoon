@@ -31,10 +31,22 @@ export class TmdbService {
       }
     );
 
+    // sort by popularity
+    data.results.sort((a, b) => b.popularity - a.popularity);
+
     return data;
   }
 
-  async runFinder(type: 'MOVIE' | 'TV', genres: number[], similar: number[]) {
+  async runFinder(
+    type: 'MOVIE' | 'TV',
+    genres: number[],
+    similar: number[],
+    preferences: {
+      platforms: string[];
+      locale: string;
+      age: number;
+    }
+  ) {
     try {
       // Fetch similar
       const similarPromises = similar.map(async (id) => {
@@ -49,12 +61,29 @@ export class TmdbService {
         return data;
       });
 
-      const similarResults = await Promise.all(similarPromises);
+      let similarResults = await Promise.all(similarPromises);
+
+      similarResults = similarResults.map((result) => {
+        result.results.sort((a, b) => b.popularity - a.popularity);
+        result.results = result.results.filter(
+          (item) =>
+            item.genre_ids.filter((id) => genres.includes(id)).length > 0
+        );
+        return result;
+      });
 
       const { data } = await axios.get(
         `${
           this.baseUrl
-        }/discover/${type.toLowerCase()}?with_genres=${genres.join(',')}`,
+        }/discover/${type.toLowerCase()}?with_genres=${genres.join(
+          '|'
+        )}&watch_region=${
+          preferences.locale.split('_')[1]
+        }&sort_by=popularity.desc&include_adult=${
+          preferences.age < 18 ? false : true
+        }&with_original_language=${
+          preferences.locale.split('_')[0]
+        }&release_date.gte=${new Date().getFullYear() - 2}-01-01`,
         {
           headers: {
             Authorization: `Bearer ${this.accessToken}`,
@@ -101,7 +130,7 @@ export class TmdbService {
       // Return top 10
       return filtered.slice(0, 10);
     } catch (e) {
-      console.log(e.response.data);
+      console.log(e?.response?.data || e);
     }
   }
 }

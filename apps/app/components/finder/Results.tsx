@@ -4,6 +4,7 @@ import { Type } from '../../types/general';
 import Backdrop from '../images/Backdrop';
 import { LinearGradient } from 'expo-linear-gradient';
 import colors from 'tailwindcss/colors';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 type Props = {
   type: Type | null;
@@ -11,18 +12,20 @@ type Props = {
 };
 
 export default function FinderResults({ type, results }: Props) {
+  const { genres } = useTypedSelector((state) => state.genres);
+
   return (
     <View className="flex flex-col items-center justify-center flex-1 mt-8 bg-background">
       <AppText className="text-3xl text-center text-white" weight="extra-bold">
         That’s what we’ve found for you!
       </AppText>
       <ScrollView className="flex-1 w-full mt-4">
-        <View className="flex flex-row flex-wrap items-center w-full">
+        <View className="flex flex-row flex-wrap items-center justify-center w-full">
           {results.map((result) => (
-            <View className="w-1/2 my-2 h-36" key={result.id}>
-              <View className="m-2 h-36">
+            <View className="h-40 w-44" key={result.id}>
+              <View className="h-40 m-2">
                 <View
-                  className={`flex flex-col items-center justify-end flex-1 h-24 bg-gray-800  rounded-md relative`}
+                  className={`flex flex-col items-center justify-end flex-1 h-40 bg-gray-800  rounded-md relative`}
                 >
                   <View className="absolute w-full h-full rounded-md z-1">
                     <LinearGradient
@@ -71,11 +74,11 @@ export default function FinderResults({ type, results }: Props) {
                         numberOfLines={1}
                         ellipsizeMode="tail"
                       >
-                        {result.vote_average * 10}
+                        {Math.floor(result.vote_average * 10)}
                       </AppText>
                     </View>
                   </View>
-                  <View className="relative z-10 flex flex-col w-full px-3 py-4">
+                  <View className="relative z-10 flex flex-col w-full px-[8px] py-4">
                     <View>
                       <AppText
                         className="text-[14px] text-white"
@@ -86,17 +89,21 @@ export default function FinderResults({ type, results }: Props) {
                         {result.title}
                       </AppText>
                     </View>
-                    <View className="flex flex-row space-x-1">
-                      {result.genre_ids.map((genre: any) => (
-                        <AppText
-                          className="text-[12px] text-gray-400"
-                          weight="semi-bold"
-                          numberOfLines={1}
-                          ellipsizeMode="tail"
+                    <View className="flex flex-row space-x-1 mt-[2px] mb-[4px]">
+                      {result.genre_ids.slice(0, 2).map((genre: any) => (
+                        <View
                           key={genre}
+                          className="bg-gray-800 px-[4px] rounded-md py-[1px] opacity-70"
                         >
-                          {genre}
-                        </AppText>
+                          <AppText
+                            className="text-[10px] text-gray-400"
+                            weight="semi-bold"
+                            numberOfLines={1}
+                            ellipsizeMode="tail"
+                          >
+                            {genres[genre]}
+                          </AppText>
+                        </View>
                       ))}
                     </View>
                   </View>

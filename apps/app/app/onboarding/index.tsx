@@ -11,6 +11,7 @@ import ChooseStreamingPlatform from '../../components/onboarding/ChooseStreaming
 import ChooseAge from '../../components/onboarding/ChooseAge';
 import ChooseLanguage from '../../components/onboarding/ChooseLanguage';
 import { useRouter } from 'expo-router';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 export default function OnBoarding() {
   const [currentStep, setCurrentStep] = useState(0);
