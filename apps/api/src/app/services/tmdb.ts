@@ -37,6 +37,18 @@ export class TmdbService {
     return data;
   }
 
+  async getMedia(type: 'MOVIE' | 'TV', id: number) {
+    const { data } = await axios.get(
+      `${this.baseUrl}/${type.toLowerCase()}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+        },
+      }
+    );
+    return data;
+  }
+
   async runFinder(
     type: 'MOVIE' | 'TV',
     genres: number[],

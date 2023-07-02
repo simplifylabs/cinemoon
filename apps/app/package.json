@@ -29,7 +29,8 @@
     "react-native-heroicons": "*",
     "axios": "*",
     "react-redux": "*",
-    "@rematch/core": "*"
+    "@rematch/core": "*",
+    "buffer": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/app && cp yarn.lock apps/app",
