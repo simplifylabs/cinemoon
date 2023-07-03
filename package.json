@@ -2,7 +2,9 @@
   "name": "@cinemoon/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev": "nx serve api & nx start app"
+  },
   "private": true,
   "repository": "https://github.com/simplifylabs/cinemoon",
   "dependencies": {
