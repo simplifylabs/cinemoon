@@ -12,6 +12,7 @@ export default function Layout() {
         <AppText className="text-3xl text-white" weight="extra-bold">
           Welcome back!
         </AppText>
+        <View></View>
       </SafeAreaView>
     </View>
   );
