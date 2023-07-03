@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
+  "repository": "https://github.com/simplifylabs/cinemoon",
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
     "@expo/metro-config": "0.7.1",
